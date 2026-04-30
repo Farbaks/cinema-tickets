@@ -31,11 +31,11 @@ export default class TicketService {
 
     this.#validatePurchase(accountId, ticketCount);
 
-    const totalCost = this.#calculatePrice(counts);
+    const totalCost = this.#calculatePrice(ticketCount);
     const totalSeats = ticketCount.ADULT + ticketCount.CHILD;
 
-    this.#paymentService.makePayment(accountId, totalCost);
-    this.#seatService.reserveSeat(accountId, totalSeats);
+    this.#ticketPaymentService.makePayment(accountId, totalCost);
+    this.#seatReservationService.reserveSeat(accountId, totalSeats);
   }
 
   #countTickets(requests) {
@@ -73,9 +73,9 @@ export default class TicketService {
     }
   }
 
-  #calculatePrice(counts) {
+  #calculatePrice(ticketCount) {
     return (
-      TICKET_PRICES.CHILD * count.CHILD + TICKET_PRICES.ADULT * count.ADULT
+      TICKET_PRICES.CHILD * ticketCount.CHILD + TICKET_PRICES.ADULT * ticketCount.ADULT
     );
   }
 }
